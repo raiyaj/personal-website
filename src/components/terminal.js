@@ -2,36 +2,53 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { Cursor } from '../styles/animations';
+import { Cursor } from '../styles/animation';
 
-const Terminal = ({ children, command, header }) => {
+const Terminal = ({ children, command, showHeader }) => {
   const [typed, setTyped] = useState('');
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [showChildren, setShowChildren] = useState(false);
+
+  const delay = 750;
   const directory = window.location.pathname.split('/')[0];
 
   useEffect(() => {
-    setTimeout(() => {
-      if (typed !== command) {
-        setTyped(`${typed}${command[typed.length]}`);
+    let intervalId;
+    if (!showPrompt) {
+      setTimeout(() => setShowPrompt(true), delay);
+    } else {
+      if (!typed) {
+        setTimeout(() => setTyped(command[0]), delay);
+      } else if (typed !== command) {
+        intervalId = setInterval(() => {
+          setTyped(`${typed}${command[typed.length]}`);
+        }, 135);
+      } else {
+        clearInterval(intervalId);
+        setTimeout(() => setShowChildren(true), delay);
       }
-    }, 135);
-  }, [typed, command]);
+    }
+    return () => clearInterval(intervalId);
+  });
 
   return (
     <StyledTerminal>
-      {header && (
+      {showHeader && (
         <div>
           Last update: Sun Oct 11 10:33:57
         </div>
       )}
-      <Prompt>
-        <Link to='/'>raiyajessa</Link>
-        <span className='light-green'>@</span>
-        <span className='pink'>{directory || '~'}</span>
-        <span className='light-green'>$</span>
-        <b className='dark-green'>{typed}</b>
-        <Cursor>|</Cursor>
-      </Prompt>
-      {typed === command && children}
+      {showPrompt &&
+        <Prompt>
+          <Link to='/'>raiyajessa</Link>
+          <span className='light-green'>@</span>
+          <span className='pink'>{directory || '~'}</span>
+          <span className='light-green'>$</span>
+        </Prompt>
+      }
+      <b className='dark-green'>{typed}</b>
+      {!showChildren && <Cursor>|</Cursor>}
+      {showChildren && children}
     </StyledTerminal>
   )
 };
@@ -42,19 +59,21 @@ const StyledTerminal = styled.div`
 `;
 
 const Prompt = styled.div`
-  > a, span {
+  display: inline-block;
+  line-height: 1.4rem;
+
+  > * {
     margin-right: .4rem;
   }
 `;
 
 Terminal.defaultProps = {
-  header: false
+  showHeader: false
 };
 
 Terminal.propTypes = {
-  children: PropTypes.element,
   command: PropTypes.string.isRequired,
-  header: PropTypes.bool
+  showHeader: PropTypes.bool
 };
 
 export default Terminal;

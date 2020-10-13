@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <header>
-      <Terminal command='tree' header={true}>
+      <Terminal command='tree' showHeader={true}>
         <Tree>
           <ul>
             <li><Link to='/' className='active'>home</Link></li>
@@ -21,9 +21,14 @@ const Header = () => {
             <li><Link to='/blog'>blog</Link></li>
           </ul>
           <ul>
-            {social.map(c => (
-              <li key={c.name}><a href={c.url}>{c.name}</a></li>
-            ))}
+            <li>contact</li>
+            <ul>
+              {social.map(item => (
+                <li key={item.name}>
+                  <a href={item.url}>{item.name}</a>
+                </li>
+              ))}
+            </ul>
           </ul>
         </Tree>
       </Terminal> 
@@ -36,7 +41,7 @@ const Tree = styled.div`
   align-items: flex-start;
   
   ul {
-    border-left: 1.2px solid var(--pink);
+    border-left: 1.2px solid var(--light-green);
     margin-left: 1.2rem;
     padding-inline-start: unset;
   }
