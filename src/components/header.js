@@ -12,28 +12,32 @@ const Header = () => {
       <Terminal command='tree' showHeader={true}>
         <Tree>
           <ul>
-            <li><Link to='/' className='active'>home</Link></li>
+            <li>
+              <Link to='/' className='active'>home</Link>
               <ul>
                 <li><a href='#introduction'>introduction</a></li>
                 <li><a href='#projects'>projects</a></li>
                 <li><a href='#writing'>writing (latest)</a></li>
               </ul>
+            </li>
             <li><Link to='/blog'>blog</Link></li>
           </ul>
           <ul>
-            <li>contact</li>
-            <ul>
+            <li>
+              contact
+              <ul>
               {social.map(item => (
                 <li key={item.name}>
                   <a href={item.url}>{item.name}</a>
                 </li>
               ))}
             </ul>
+            </li>
           </ul>
         </Tree>
       </Terminal> 
     </header>
-  )
+  );
 };
 
 const Tree = styled.div`
