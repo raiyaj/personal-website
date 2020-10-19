@@ -10,10 +10,14 @@ const GlobalStyle = createGlobalStyle`
     --blue: #5e747f;
 
     --font-mono: menlo, monospace;
+    --font-sans: 'Roboto', sans-serif;
   }
 
   body {
     color: var(--blue);
+    font-family: var(--font-sans);
+    font-size: .85rem;
+    letter-spacing: .5px;
     line-height: 1.2rem;
   }
 
@@ -24,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: var(--green);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 500;
     text-decoration: none;
 
     &:hover, &.active {
@@ -45,6 +49,11 @@ const GlobalStyle = createGlobalStyle`
   .font-mono {
     font-family: var(--font-mono);
     font-size: small;
+    letter-spacing: .3px;
+    
+    a { 
+      font-weight: bold;
+    }
   }
 
   .hide {
