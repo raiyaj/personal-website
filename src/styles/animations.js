@@ -1,12 +1,14 @@
-import { keyframes } from 'styled-components';
+import { css } from 'styled-components';
 
-const blink = keyframes`
-  from, to {
-    color: transparent;
-  }
-  50% {
-    color: var(--blue);
+const keyframes = css`
+  @keyframes blink {
+    from, to {
+      color: transparent;
+    }
+    50% {
+      color: var(--blue);
+    }
   }
 `;
 
-export { blink };
+export { keyframes };

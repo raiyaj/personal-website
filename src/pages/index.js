@@ -1,9 +1,11 @@
 import React from 'react';
-import { Layout } from '../components';
+import { Introduction, Layout } from '../components';
 
 const App = () => {
   return (
-    <Layout />
+    <Layout>
+      <Introduction />
+    </Layout>
   );
 };
 

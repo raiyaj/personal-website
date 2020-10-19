@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { keyframes } from './animations';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -14,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: var(--blue);
     line-height: 1.2rem;
+  }
+
+  header, section {
+    padding: 3rem 0;
   }
 
   a {
@@ -36,6 +41,17 @@ const GlobalStyle = createGlobalStyle`
   .dark-green {
     color: var(--dark-green);
   }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-size: small;
+  }
+
+  .hide {
+    opacity: 0;
+  }
+
+  ${keyframes};
 `;
 
 export default GlobalStyle;

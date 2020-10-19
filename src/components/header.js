@@ -1,46 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { graphql, useStaticQuery, Link } from 'gatsby';
 import Terminal from './terminal';
-import content from '../../content/index.yaml';
+import content from '../../content/content.yaml';
 
 const Header = () => {
+  const [showNav, setShowNav] = useState(false);
+
   const { social } = content.header;
+  const data = useStaticQuery(
+    graphql`
+      query {
+        allFile(sort: {fields: modifiedTime, order: DESC}, limit: 1) {
+          nodes {
+            modifiedTime
+          }
+        }
+      }
+    `
+  );
+  const lastUpdate = new Date(data.allFile.nodes[0].modifiedTime)
+    .toString()
+    .split(' ')
+    .slice(0, 5)
+    .filter((_, i) => i !== 3)
+    .join(' ');
 
   return (
-    <header>
-      <Terminal command='tree' showHeader={true}>
-        <Tree>
-          <ul>
-            <li>
-              <Link to='/' className='active'>home</Link>
-              <ul>
-                <li><a href='#introduction'>introduction</a></li>
-                <li><a href='#projects'>projects</a></li>
-                <li><a href='#writing'>writing (latest)</a></li>
-              </ul>
-            </li>
-            <li><Link to='/blog'>blog</Link></li>
-          </ul>
-          <ul>
-            <li>
-              contact
-              <ul>
+    <header className='font-mono'>
+      <div>Last update: {lastUpdate}</div>
+      <Terminal
+        animate
+        command='tree'
+        showResult={showNav}
+        setShowResult={setShowNav}
+      />
+      <Nav className={showNav ? '' : 'hide'}>
+        <ul>
+          <li>
+            <Link to='/' className='active'>home</Link>
+            <ul>
+              <li><a href='#introduction'>introduction</a></li>
+              <li><a href='#projects'>projects</a></li>
+              <li><a href='#latest'>latest</a></li>
+            </ul>
+          </li>
+          <li><Link to='/blog'>blog</Link></li>
+        </ul>
+        <ul>
+          <li>
+            contact
+            <ul>
               {social.map(item => (
                 <li key={item.name}>
                   <a href={item.url}>{item.name}</a>
                 </li>
               ))}
             </ul>
-            </li>
-          </ul>
-        </Tree>
-      </Terminal> 
+          </li>
+        </ul>
+      </Nav>
     </header>
   );
 };
 
-const Tree = styled.div`
+const Nav = styled.nav`
   display: flex;
   align-items: flex-start;
   

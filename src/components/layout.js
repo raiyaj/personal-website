@@ -17,7 +17,8 @@ const Layout = ({ children }) => {
 };
 
 const StyledLayout = styled.div`
-  margin: 8rem auto;
+  height: 1000px;  /* temporary */
+  margin: 6rem auto;
   width: 60vw;
 `;
 

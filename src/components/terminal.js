@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { blink } from '../styles';
 
-const Terminal = ({ children, command, showHeader }) => {
+const Terminal = ({ animate, command, showResult, setShowResult }) => {
   const [typed, setTyped] = useState('');
-  const [showPrompt, setShowPrompt] = useState(false);
-  const [showChildren, setShowChildren] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(!animate);
 
   const delay = 750;
   const directory = window.location.pathname.split('/')[0] || '~';
@@ -24,16 +22,13 @@ const Terminal = ({ children, command, showHeader }) => {
       }, 135);
     } else {
       clearInterval(intervalId);
-      setTimeout(() => setShowChildren(true), delay);
+      setTimeout(() => setShowResult(true), delay);
     }
     return () => clearInterval(intervalId);
   });
 
   return (
-    <StyledTerminal>
-      {showHeader && (
-        <div>Last update: Sun Oct 11 10:33:57</div>
-      )}
+    <div className='font-mono'>
       {showPrompt &&
         <Prompt>
           <Link to='/'>raiyajessa</Link>
@@ -43,16 +38,10 @@ const Terminal = ({ children, command, showHeader }) => {
         </Prompt>
       }
       <b className='dark-green'>{typed}</b>
-      {!showChildren && <Cursor>|</Cursor>}
-      {showChildren && children}
-    </StyledTerminal>
+      {!showResult && <Cursor>|</Cursor>}
+    </div>
   );
 };
-
-const StyledTerminal = styled.div`
-  font-family: var(--font-mono);
-  font-size: small;
-`;
 
 const Prompt = styled.div`
   display: inline-block;
@@ -66,17 +55,18 @@ const Prompt = styled.div`
 const Cursor = styled.span`
   font-size: 1rem;
   margin-left: -.1rem;
-  animation: 1.25s ${blink} step-start infinite;
+  animation: 1.25s blink step-start infinite;
 `;
 
 Terminal.propTypes = {
-  children: PropTypes.element,
+  animate: PropTypes.bool,
   command: PropTypes.string.isRequired,
-  showHeader: PropTypes.bool
+  showResult: PropTypes.bool,
+  setShowResult: PropTypes.func
 };
 
 Terminal.defaultProps = {
-  showHeader: false
+  animate: false
 };
 
 export default Terminal;

@@ -1,0 +1,19 @@
+header:
+  social:
+    - name: email
+      url: mailto:raiyajessa@gmail.com
+    - name: github
+      url: https://github.com/raiyaj
+    - name: twitter
+      url: https://twitter.com/raiyajessa
+    - name: linkedin
+      url: https://linkedin.com/in/raiyajessa
+introduction:
+  bio:
+    - Hi, I'm Raiya Jessa. I'm a software developer and computer science
+      student in Vancouver, Canada. At the moment, I'm finishing my last
+      semester of school, participating in a virtual workshop series with
+      <a href='https://www.resourcemovement.org'>Resource Movement</a>,
+      and trying to find a path into civic technology.
+    - This is my personal landing page, my web development playground
+      and where I document what I'm learning, reading, and making.
