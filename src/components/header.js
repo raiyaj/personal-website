@@ -7,7 +7,7 @@ import content from '../../content/content.yaml';
 const Header = () => {
   const [showNav, setShowNav] = useState(false);
 
-  const { social } = content.header;
+  const { contact } = content.header;
   const data = useStaticQuery(
     graphql`
       query {
@@ -51,7 +51,7 @@ const Header = () => {
           <li>
             contact
             <ul>
-              {social.map(item => (
+              {contact.map(item => (
                 <li key={item.name}>
                   <a href={item.url}>{item.name}</a>
                 </li>

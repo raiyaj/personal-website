@@ -15,7 +15,7 @@ const Introduction = () => {
         setShowResult={setShowIntro}
       />
       <div className={showIntro ? '' : 'hide'}>
-        {bio.map((paragraph, i) => (
+        {bio.split('\n').map((paragraph, i) => (
           <p key={i} dangerouslySetInnerHTML={{__html: paragraph}}></p>
         ))}
       </div>

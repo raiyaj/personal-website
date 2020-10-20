@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
   .font-mono {
     font-family: var(--font-mono);
     font-size: small;
-    letter-spacing: .3px;
+    letter-spacing: .2px;
     
     a { 
       font-weight: bold;
