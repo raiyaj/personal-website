@@ -19,6 +19,7 @@ const Header = () => {
       }
     `
   );
+  // format date as Mon Jan 01 21:30:00
   const lastUpdate = new Date(data.allFile.nodes[0].modifiedTime)
     .toString()
     .split(' ')

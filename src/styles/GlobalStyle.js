@@ -16,9 +16,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: var(--blue);
     font-family: var(--font-sans);
-    font-size: .85rem;
+    font-size: .875rem;
     letter-spacing: .5px;
-    line-height: 1.2rem;
+    line-height: 1.35rem;
   }
 
   header, section {
@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
 
   .font-mono {
     font-family: var(--font-mono);
-    font-size: small;
+    font-size: .83rem;
     letter-spacing: .2px;
     
     a { 

@@ -18,10 +18,9 @@ const Terminal = ({ animate, command, showResult, setShowResult }) => {
       setTimeout(() => setTyped(command[0]), delay);
     } else if (typed !== command) {
       intervalId = setInterval(() => {
-        setTyped(`${typed}${command[typed.length]}`);
+        setTyped(`${command.substr(0, typed.length + 1)}`);
       }, 135);
     } else {
-      clearInterval(intervalId);
       setTimeout(() => setShowResult(true), delay);
     }
     return () => clearInterval(intervalId);
@@ -44,8 +43,7 @@ const Terminal = ({ animate, command, showResult, setShowResult }) => {
 };
 
 const Prompt = styled.div`
-  display: inline-block;
-  line-height: 1.4rem;
+  display: inline;
 
   > * {
     margin-right: .4rem;
@@ -53,7 +51,10 @@ const Prompt = styled.div`
 `;
 
 const Cursor = styled.span`
-  font-size: 1rem;
+  display: inline-block;  /* transforms don't apply to inline elements */
+  transform: scale(1.3);
+  position: relative;
+  bottom: .1rem;
   margin-left: -.1rem;
   animation: 1.25s blink step-start infinite;
 `;
