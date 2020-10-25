@@ -1,25 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Header from './header';
-import { GlobalStyle } from '../styles';
+import { theme, GlobalStyle } from '../styles';
 
 const Layout = ({ children }) => {
   return (
     <div id='root'>
       <GlobalStyle />
-      <StyledLayout>
-        <Header />
-        {children}
-      </StyledLayout>
+      <ThemeProvider theme={theme}>
+        <StyledLayout>
+          <Header />
+          {children}
+        </StyledLayout>
+      </ThemeProvider>
     </div>
   );
-};
+}
 
 const StyledLayout = styled.div`
   height: 1000px;  /* temporary */
   margin: 6rem auto;
-  width: 60vw;
+  max-width: 800px;
+  width: 70vw;
+
+  ${({ theme }) => theme.bp.lg} {
+    width: 80vw;
+  }
+
+  ${({ theme }) => theme.bp.sm} {
+    width: 85vw;
+  }
 `;
 
 Layout.propTypes = {

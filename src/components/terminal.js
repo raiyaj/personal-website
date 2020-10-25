@@ -12,17 +12,14 @@ const Terminal = ({ animate, command, showResult, setShowResult }) => {
 
   useEffect(() => {
     let intervalId;
-    if (!showPrompt) {
-      setTimeout(() => setShowPrompt(true), delay);
-    } else if (!typed) {
-      setTimeout(() => setTyped(command[0]), delay);
-    } else if (typed !== command) {
+    if (!showPrompt) setTimeout(() => setShowPrompt(true), delay);
+    else if (!typed) setTimeout(() => setTyped(command[0]), delay);
+    else if (typed !== command) {
       intervalId = setInterval(() => {
-        setTyped(`${command.substr(0, typed.length + 1)}`);
+        setTyped(command.substr(0, typed.length + 1));
       }, 135);
-    } else {
-      setTimeout(() => setShowResult(true), delay);
     }
+    else setTimeout(() => setShowResult(true), delay);
     return () => clearInterval(intervalId);
   });
 
@@ -62,8 +59,8 @@ const Cursor = styled.span`
 Terminal.propTypes = {
   animate: PropTypes.bool,
   command: PropTypes.string.isRequired,
-  showResult: PropTypes.bool,
-  setShowResult: PropTypes.func
+  showResult: PropTypes.bool.isRequired,
+  setShowResult: PropTypes.func.isRequired
 };
 
 Terminal.defaultProps = {

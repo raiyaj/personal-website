@@ -71,7 +71,8 @@ const Nav = styled.nav`
   
   ul {
     border-left: 1.2px solid var(--light-green);
-    margin-left: 1.2rem;
+    margin-bottom: 0;
+    margin-left: 1.1rem;
     padding-inline-start: unset;
   }
 
@@ -82,6 +83,14 @@ const Nav = styled.nav`
       content: '--';
       color: var(--pink);
       margin-right: .5rem;
+    }
+  }
+
+  ${({ theme }) => theme.bp.sm} {
+    flex-direction: column;
+
+    ul:not(:first-child) {
+      margin-top: 0;
     }
   }
 `;

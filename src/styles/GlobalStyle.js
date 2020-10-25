@@ -16,13 +16,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: var(--blue);
     font-family: var(--font-sans);
-    font-size: .875rem;
+    font-size: .9rem;
     letter-spacing: .5px;
     line-height: 1.35rem;
   }
 
   header, section {
-    padding: 3rem 0;
+    padding: 3.5rem 0;
   }
 
   a {
@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
 
   .font-mono {
     font-family: var(--font-mono);
-    font-size: .83rem;
+    font-size: .85rem;
     letter-spacing: .2px;
     
     a { 
