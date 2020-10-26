@@ -41,7 +41,7 @@ const Header = () => {
           <li>
             <Link to='/' className='active'>home</Link>
             <ul>
-              <li><a href='#introduction'>introduction</a></li>
+              <li><a href='#about'>about</a></li>
               <li><a href='#projects'>projects</a></li>
               <li><a href='#latest'>latest</a></li>
             </ul>

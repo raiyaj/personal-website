@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Terminal from './terminal';
 import content from '../../content/content.yaml';
 
-const Introduction = () => {
+const About = () => {
   const [showIntro, setShowIntro] = useState(false);
 
-  const { bio } = content.introduction;
+  const { bio } = content.about;
 
   return (
-    <section id='introduction'>
+    <section id='about'>
       <Terminal
         command='whoami'
         showResult={showIntro}
@@ -16,11 +16,11 @@ const Introduction = () => {
       />
       <div className={showIntro ? '' : 'hide'}>
         {bio.split('\n').map((paragraph, i) => (
-          <p key={i} dangerouslySetInnerHTML={{__html: paragraph}}></p>
+          <p key={i} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
         ))}
       </div>
     </section>
   );
 };
 
-export default Introduction;
+export default About;

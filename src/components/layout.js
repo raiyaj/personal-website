@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
       </ThemeProvider>
     </div>
   );
-}
+};
 
 const StyledLayout = styled.div`
   height: 1000px;  /* temporary */

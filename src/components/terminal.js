@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import withLocation from './hoc/withLocation';
 
-const Terminal = ({ animate, command, showResult, setShowResult }) => {
+const Terminal = ({ animate, command, pathname, showResult, setShowResult }) => {
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animate);
 
   const delay = 750;
-  const directory = window.location.pathname.split('/')[0] || '~';
+  const directory = pathname.split('/')[0] || '~';
 
   useEffect(() => {
     let intervalId;
@@ -59,6 +60,7 @@ const Cursor = styled.span`
 Terminal.propTypes = {
   animate: PropTypes.bool,
   command: PropTypes.string.isRequired,
+  pathname: PropTypes.string,
   showResult: PropTypes.bool.isRequired,
   setShowResult: PropTypes.func.isRequired
 };
@@ -67,4 +69,4 @@ Terminal.defaultProps = {
   animate: false
 };
 
-export default Terminal;
+export default withLocation(Terminal);

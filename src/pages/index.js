@@ -1,10 +1,10 @@
 import React from 'react';
-import { Introduction, Layout } from '../components';
+import { About, Layout } from '../components';
 
 const App = () => {
   return (
     <Layout>
-      <Introduction />
+      <About />
     </Layout>
   );
 };
