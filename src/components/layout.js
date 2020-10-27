@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
-import Header from './header';
 import { theme, GlobalStyle } from '../styles';
+import Header from './header';
 
 const Layout = ({ children }) => {
+  useEffect(() => {
+    // modify external links
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement
+    Array.from(document.querySelectorAll('a'))
+      .filter(anchor => anchor.host !== window.location.host)
+      .forEach(anchor => {
+        anchor.setAttribute('target', '_blank');
+        // https://mathiasbynens.github.io/rel-noopener
+        anchor.setAttribute('rel', 'noopener noreferrer');
+      });
+  }, []);
+
   return (
     <div id='root'>
       <GlobalStyle />

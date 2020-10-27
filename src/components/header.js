@@ -23,8 +23,7 @@ const Header = () => {
   const lastUpdate = new Date(data.allFile.nodes[0].modifiedTime)
     .toString()
     .split(' ')
-    .slice(0, 5)
-    .filter((_, i) => i !== 3)
+    .filter((_, i) => i < 5 && i !== 3)
     .join(' ');
 
   return (

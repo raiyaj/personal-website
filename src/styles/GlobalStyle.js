@@ -56,6 +56,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  /* use instead of conditional rendering to reserve space on initial mount */
   .hide {
     opacity: 0;
   }
