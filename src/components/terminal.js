@@ -15,21 +15,20 @@ const Terminal = ({
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
 
-  const delay = 750;
-  const directory = pathname.split('/')[1] || '~';
-
   useEffect(() => {
-    let intervalId;
-    if (!showPrompt) setTimeout(() => setShowPrompt(true), delay);
-    else if (!typed) setTimeout(() => setTyped(command[0]), delay);
-    else if (typed !== command) {
-      intervalId = setInterval(() => {
+    const delay = typed && typed !== command ? 135 : 600;
+    const timeoutId = setTimeout(() => {
+      if (!showPrompt) setShowPrompt(true);
+      else if (!typed) setTyped(command[0]);
+      else if (typed !== command) {
         setTyped(command.substr(0, typed.length + 1));
-      }, 135);
-    }
-    else setTimeout(() => setShowContent(true), delay);
-    return () => clearInterval(intervalId);
+      }
+      else setShowContent(true);
+    }, delay);
+    return () => clearTimeout(timeoutId);
   });
+
+  const directory = pathname.split('/')[1] || '~';
 
   return (
     <div className='font-mono'>
