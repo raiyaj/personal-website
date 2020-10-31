@@ -35,7 +35,7 @@ const Nav = ({ pathname }) => {
       { name: 'blog', url: '/blog' }
     ],
     [
-      { name: 'contact', children: contact}
+      { name: 'contact', children: contact }
     ]
   ];
 
@@ -72,7 +72,7 @@ const Nav = ({ pathname }) => {
                           : <Link
                               to={`${branch.url}#${twig.name}`}
                               {...(branch.name === directory && {
-                                onClick: e => smoothScroll(`#${twig.name}`, e)
+                                onClick: e => smoothScroll(e, `#${twig.name}`)
                               })}
                             >
                               {twig.name}

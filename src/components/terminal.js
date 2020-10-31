@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import withPathname from './hoc/withPathname';
+import { smoothScroll } from '../utils';
 
 const Terminal = ({
   animatePrompt,
@@ -34,7 +35,9 @@ const Terminal = ({
     <div className='font-mono'>
       {showPrompt && (
         <Prompt>
-          <Link to='/'>raiyajessa</Link>
+          <Link to='/' {...(directory === '~' && { onClick: smoothScroll })}>
+            raiyajessa
+          </Link>
           <span className='light-green'>@</span>
           <span className='pink'>{directory}</span>
           <span className='light-green'>$</span>
