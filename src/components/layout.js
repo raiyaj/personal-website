@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme, GlobalStyle } from '../styles';
-import Header from './header';
+import Nav from './nav';
 
 const Layout = ({ children }) => {
   useEffect(() => {
@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <StyledLayout>
-          <Header />
+          <Nav />
           {children}
         </StyledLayout>
       </ThemeProvider>

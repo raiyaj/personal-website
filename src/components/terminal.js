@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import withLocation from './hoc/withLocation';
+import withPathname from './hoc/withPathname';
 
-const Terminal = ({ animate, command, pathname, showResult, setShowResult }) => {
+const Terminal = ({
+  animatePrompt,
+  command,
+  pathname,
+  showContent,
+  setShowContent
+}) => {
   const [typed, setTyped] = useState('');
-  const [showPrompt, setShowPrompt] = useState(!animate);
+  const [showPrompt, setShowPrompt] = useState(!animatePrompt);
 
   const delay = 750;
-  const directory = pathname.split('/')[0] || '~';
+  const directory = pathname.split('/')[1] || '~';
 
   useEffect(() => {
     let intervalId;
@@ -20,22 +26,22 @@ const Terminal = ({ animate, command, pathname, showResult, setShowResult }) => 
         setTyped(command.substr(0, typed.length + 1));
       }, 135);
     }
-    else setTimeout(() => setShowResult(true), delay);
+    else setTimeout(() => setShowContent(true), delay);
     return () => clearInterval(intervalId);
   });
 
   return (
     <div className='font-mono'>
-      {showPrompt &&
+      {showPrompt && (
         <Prompt>
           <Link to='/'>raiyajessa</Link>
           <span className='light-green'>@</span>
           <span className='pink'>{directory}</span>
           <span className='light-green'>$</span>
         </Prompt>
-      }
+      )}
       <b className='dark-green'>{typed}</b>
-      {!showResult && <Cursor>|</Cursor>}
+      {!showContent && <Cursor>|</Cursor>}
     </div>
   );
 };
@@ -58,15 +64,15 @@ const Cursor = styled.span`
 `;
 
 Terminal.propTypes = {
-  animate: PropTypes.bool,
+  animatePrompt: PropTypes.bool,
   command: PropTypes.string.isRequired,
   pathname: PropTypes.string,
-  showResult: PropTypes.bool.isRequired,
-  setShowResult: PropTypes.func.isRequired
+  showContent: PropTypes.bool.isRequired,
+  setShowContent: PropTypes.func.isRequired
 };
 
 Terminal.defaultProps = {
-  animate: false
+  animatePrompt: false
 };
 
-export default withLocation(Terminal);
+export default withPathname(Terminal);

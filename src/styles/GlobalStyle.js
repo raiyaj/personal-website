@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.35rem;
   }
 
-  header, section {
+  nav, section {
     padding: 3.5rem 0;
   }
 
