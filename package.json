@@ -7,7 +7,6 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "yarn develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
@@ -28,9 +27,7 @@
     "react-transition-group": "^4.4.1",
     "styled-components": "^5.2.0"
   },
-  "devDependencies": {
-    "prettier": "2.1.1"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
