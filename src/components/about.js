@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Terminal from './terminal';
 import content from '../../content/content.yaml';
 
-const About = () => {
-  const [showContent, setShowContent] = useState(false);
-
+const About = ({ isDoneAnimation }) => {
   const { bio } = content.about;
 
   return (
     <section id='about'>
       <Terminal
+        animationName='about'
         command='whoami'
-        showContent={showContent}
-        setShowContent={setShowContent}
+        isDoneAnimation={isDoneAnimation}
       />
-      <div className={showContent ? '' : 'hide'}>
+      <div className={isDoneAnimation ? '' : 'hide'}>
         {bio.split('\n').map((paragraph, i) => (
           <p key={i} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
         ))}
       </div>
     </section>
   );
+};
+
+About.propTypes = {
+  isDoneAnimation: PropTypes.bool.isRequired
 };
 
 export default About;

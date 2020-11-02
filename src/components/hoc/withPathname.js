@@ -1,5 +1,5 @@
 import React from 'react';
-import { Location } from '@reach/router';  // router implemented by gatsby
+import { Location } from '@reach/router';  // Router implemented by gatsby
 
 const withLocation = Component => props => (
   <Location>
