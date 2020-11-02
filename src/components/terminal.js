@@ -3,30 +3,30 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import withPathname from './hoc/withPathname';
-import { AnimationDispatch } from '../pages';
-import { smoothScroll, ANIMATION_DELAY } from '../utils';
+import { AppearanceDispatch } from '../hooks/useSequentialAppearance';
+import { smoothScroll } from '../utils';
 
 const Terminal = ({
   animatePrompt,
-  animationName,
   command,
+  componentId,
   isDoneAnimation,
   pathname
 }) => {
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
 
-  const dispatch = useContext(AnimationDispatch);
+  const dispatch = useContext(AppearanceDispatch);
 
   useEffect(() => {
-    const delay = typed && typed !== command ? 135 : ANIMATION_DELAY;
+    const delay = typed && typed !== command ? 135 : 600;
     const timeoutId = setTimeout(() => {
       if (!showPrompt) setShowPrompt(true);
       else if (!typed) setTyped(command[0]);
       else if (typed !== command) {
         setTyped(command.substr(0, typed.length + 1));
       }
-      else dispatch({ type: 'finish', name: animationName });
+      else dispatch({ type: 'finish', id: componentId });
     }, delay);
     return () => clearTimeout(timeoutId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,8 +71,8 @@ const Cursor = styled.span`
 
 Terminal.propTypes = {
   animatePrompt: PropTypes.bool,
-  animationName: PropTypes.string,
   command: PropTypes.string.isRequired,
+  componentId: PropTypes.string,
   isDoneAnimation: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired
 };

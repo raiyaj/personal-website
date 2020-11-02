@@ -9,8 +9,8 @@ const About = ({ isDoneAnimation }) => {
   return (
     <section id='about'>
       <Terminal
-        animationName='about'
         command='whoami'
+        componentId='about'
         isDoneAnimation={isDoneAnimation}
       />
       <div className={isDoneAnimation ? '' : 'hide'}>

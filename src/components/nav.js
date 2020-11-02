@@ -43,8 +43,8 @@ const Nav = ({ isDoneAnimation, pathname }) => {
       <div>Last update: {lastUpdate}</div>
       <Terminal
         animatePrompt={directory === 'home'}
-        animationName='nav'
         command='tree'
+        componentId='nav'
         isDoneAnimation={isDoneAnimation}
       />
       <Tree className={isDoneAnimation ? '' : 'hide'}>
