@@ -1,29 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import Terminal from './terminal';
+import { ChainRevealDispatch } from '../hooks';
 import content from '../../content/content.yaml';
 
-const About = ({ showContent }) => {
+const About = () => {
+  const dispatch = useContext(ChainRevealDispatch);
+  const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+    if (showResult) dispatch({ type: 'finish', id: 'about' });
+  }, [dispatch, showResult]);  // `dispatch` is safe to omit
+
   const { bio } = content.about;
 
   return (
     <section id='about'>
       <Terminal
         command='whoami'
-        componentId='about'
-        showContent={showContent}
+        setShowResult={setShowResult}
+        showResult={showResult}
       />
-      <div className={showContent ? '' : 'hide'}>
+      <div className={showResult ? '' : 'hide'}>
         {bio.split('\n').map((paragraph, i) => (
           <p key={i} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
         ))}
       </div>
     </section>
   );
-};
-
-About.propTypes = {
-  showContent: PropTypes.bool.isRequired
 };
 
 export default About;

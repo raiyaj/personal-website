@@ -4,13 +4,13 @@ import { useChainReveal, ChainRevealDispatch } from '../hooks';
 
 const App = () => {
   const sectionIds = ['nav', 'about'];
-  const [dispatch, hasRevealed, shouldReveal] = useChainReveal(sectionIds);
+  const [dispatch, shouldReveal] = useChainReveal(sectionIds);
 
   return (
     <Layout>
       <ChainRevealDispatch.Provider value={dispatch}>
-        <Nav showContent={hasRevealed('nav')} />
-        {shouldReveal('about') && <About showContent={hasRevealed('about')} />}
+        <Nav />
+        {shouldReveal('about') && <About />}
       </ChainRevealDispatch.Provider>
     </Layout>
   );

@@ -52,13 +52,10 @@ const useChainReveal = nodeIds => {
     return () => clearTimeout(timeoutId);
   }, [nodes]);
 
-  const checkStatus = (id, ...statuses) => (
-    statuses.includes(nodes.find(node => node.id === id).status)
-  );
-  const hasRevealed = id => checkStatus(id, STATUS.done);
-  const shouldReveal = id => checkStatus(id, STATUS.active, STATUS.done);
+  const shouldReveal = id => [STATUS.active, STATUS.done]
+    .includes(nodes.find(node => node.id === id).status);
 
-  return [dispatch, hasRevealed, shouldReveal];
+  return [dispatch, shouldReveal];
 };
 
 const ChainRevealDispatch = React.createContext(null);

@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import Terminal from './terminal';
 import withPathname from './hoc/withPathname';
+import { ChainRevealDispatch } from '../hooks';
 import { smoothScroll } from '../utils';
 import content from '../../content/content.yaml';
 
-const Nav = ({ pathname, setShowContent, showContent }) => {
+const Nav = ({ pathname }) => {
+  const dispatch = useContext(ChainRevealDispatch);
+  const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+    if (showResult && dispatch) {
+      dispatch({ type: 'finish', id: 'nav' });
+    }
+  }, [dispatch, showResult]);  // `dispatch` is safe to omit
+
   const data = useStaticQuery(
     graphql`
       query {
@@ -44,11 +54,10 @@ const Nav = ({ pathname, setShowContent, showContent }) => {
       <Terminal
         animatePrompt={directory === 'home'}
         command='tree'
-        componentId='nav'
-        setShowContent={setShowContent}
-        showContent={showContent}
+        setShowResult={setShowResult}
+        showResult={showResult}
       />
-      <Tree className={showContent ? '' : 'hide'}>
+      <Tree className={showResult ? '' : 'hide'}>
         {treeData.map((tree, i) => (
           <ul key={i}>
             {tree.map(branch => (
@@ -123,9 +132,7 @@ const Tree = styled.div`
 `;
 
 Nav.propTypes = {
-  pathname: PropTypes.string.isRequired,
-  setShowContent: PropTypes.func,
-  showContent: PropTypes.bool.isRequired
+  pathname: PropTypes.string.isRequired
 };
 
 export default withPathname(Nav);

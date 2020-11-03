@@ -1,23 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import withPathname from './hoc/withPathname';
-import { ChainRevealDispatch } from '../hooks';
 import { smoothScroll } from '../utils';
 
 const Terminal = ({
   animatePrompt,
   command,
-  componentId,
   pathname,
-  setShowContent,
-  showContent
+  setShowResult,
+  showResult
 }) => {
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
-
-  const dispatch = useContext(ChainRevealDispatch);
 
   useEffect(() => {
     const delay = typed && typed !== command ? 135 : 600;
@@ -27,14 +23,12 @@ const Terminal = ({
       else if (typed !== command) {
         setTyped(command.substr(0, typed.length + 1));
       }
-      else if (setShowContent) setShowContent(true);
-      else dispatch({ type: 'finish', id: componentId });
+      else setShowResult(true);
     }, delay);
     return () => clearTimeout(timeoutId);
-  // `dispatch` and `setShowContent` function identities are stable,
-  // and neither `command` nor `componentId` should ever change,
-  // so all are safe to omit. Don't omit dependencies altogether,
-  // else effect will continually dispatch and cause a re-render.
+  // `setShowResult` function identity is stable, and neither
+  // `command` nor `componentId` should ever change, so all
+  // are safe to omit.
   // https://reactjs.org/docs/hooks-reference.html
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPrompt, typed]);
@@ -54,7 +48,7 @@ const Terminal = ({
         </Prompt>
       }
       <b className='dark-green'>{typed}</b>
-      {!showContent && <Cursor>|</Cursor>}
+      {!showResult && <Cursor>|</Cursor>}
     </div>
   );
 };
@@ -79,10 +73,9 @@ const Cursor = styled.span`
 Terminal.propTypes = {
   animatePrompt: PropTypes.bool,
   command: PropTypes.string.isRequired,
-  componentId: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
-  setShowContent: PropTypes.func,
-  showContent: PropTypes.bool.isRequired
+  setShowResult: PropTypes.func.isRequired,
+  showResult: PropTypes.bool.isRequired
 };
 
 Terminal.defaultProps = {
