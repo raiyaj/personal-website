@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import withPathname from './hoc/withPathname';
-import { AppearanceDispatch } from '../hooks/useSequentialAppearance';
+import { AppearInSequenceDispatch } from '../hooks';
 import { smoothScroll } from '../utils';
 
 const Terminal = ({
   animatePrompt,
   command,
   componentId,
-  isDoneAnimation,
-  pathname
+  pathname,
+  setShowContent,
+  showContent
 }) => {
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
 
-  const dispatch = useContext(AppearanceDispatch);
+  const dispatch = useContext(AppearInSequenceDispatch);
 
   useEffect(() => {
     const delay = typed && typed !== command ? 135 : 600;
@@ -26,10 +27,16 @@ const Terminal = ({
       else if (typed !== command) {
         setTyped(command.substr(0, typed.length + 1));
       }
+      else if (setShowContent) setShowContent(true);
       else dispatch({ type: 'finish', id: componentId });
     }, delay);
     return () => clearTimeout(timeoutId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // `dispatch` and `setShowContent` function identities are stable,
+  // and neither `command` nor `componentId` should ever change,
+  // so all are safe to omit. Don't omit dependencies altogether,
+  // else effect will continually dispatch and cause a re-render.
+  // https://reactjs.org/docs/hooks-reference.html
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPrompt, typed]);
 
   const directory = pathname.split('/')[1] || '~';
@@ -38,7 +45,7 @@ const Terminal = ({
     <div className='font-mono'>
       {showPrompt &&
         <Prompt>
-          <Link to='/' onClick={directory === '~' ? smoothScroll : undefined }>
+          <Link to='/' onClick={directory === '~' ? smoothScroll : undefined}>
             raiyajessa
           </Link>
           <span className='light-green'>@</span>
@@ -47,7 +54,7 @@ const Terminal = ({
         </Prompt>
       }
       <b className='dark-green'>{typed}</b>
-      {!isDoneAnimation && <Cursor>|</Cursor>}
+      {!showContent && <Cursor>|</Cursor>}
     </div>
   );
 };
@@ -72,9 +79,10 @@ const Cursor = styled.span`
 Terminal.propTypes = {
   animatePrompt: PropTypes.bool,
   command: PropTypes.string.isRequired,
-  componentId: PropTypes.string,
-  isDoneAnimation: PropTypes.bool.isRequired,
-  pathname: PropTypes.string.isRequired
+  componentId: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired,
+  setShowContent: PropTypes.func,
+  showContent: PropTypes.bool.isRequired
 };
 
 Terminal.defaultProps = {

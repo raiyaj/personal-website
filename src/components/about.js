@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Terminal from './terminal';
 import content from '../../content/content.yaml';
 
-const About = ({ isDoneAnimation }) => {
+const About = ({ showContent }) => {
   const { bio } = content.about;
 
   return (
@@ -11,9 +11,9 @@ const About = ({ isDoneAnimation }) => {
       <Terminal
         command='whoami'
         componentId='about'
-        isDoneAnimation={isDoneAnimation}
+        showContent={showContent}
       />
-      <div className={isDoneAnimation ? '' : 'hide'}>
+      <div className={showContent ? '' : 'hide'}>
         {bio.split('\n').map((paragraph, i) => (
           <p key={i} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
         ))}
@@ -23,7 +23,7 @@ const About = ({ isDoneAnimation }) => {
 };
 
 About.propTypes = {
-  isDoneAnimation: PropTypes.bool.isRequired
+  showContent: PropTypes.bool.isRequired
 };
 
 export default About;

@@ -1,10 +1,13 @@
 import React from 'react';
-import { Layout, Nav } from '../components';
+import { Layout } from '../components';
+import { useNav } from '../hooks';
 
 const App = () => {
+  const nav = useNav();
+
   return (
     <Layout>
-      <Nav />
+      {nav}
       <div>Work in progress!</div>
     </Layout>
   );

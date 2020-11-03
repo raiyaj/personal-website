@@ -1,4 +1,4 @@
-export const smoothScroll = (event, url='/') => {
+const smoothScroll = (event, url='/') => {
   event.preventDefault();
   window.history.pushState(null, null, url);  // Silently change url
   if (url.startsWith('#')) {
@@ -8,3 +8,5 @@ export const smoothScroll = (event, url='/') => {
   }
   else window.scroll({ top: 0, behavior: 'smooth' });
 };
+
+export { smoothScroll };

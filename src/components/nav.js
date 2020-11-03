@@ -7,7 +7,7 @@ import withPathname from './hoc/withPathname';
 import { smoothScroll } from '../utils';
 import content from '../../content/content.yaml';
 
-const Nav = ({ isDoneAnimation, pathname }) => {
+const Nav = ({ pathname, setShowContent, showContent }) => {
   const data = useStaticQuery(
     graphql`
       query {
@@ -20,7 +20,7 @@ const Nav = ({ isDoneAnimation, pathname }) => {
     `
   );
 
-  const { contact } = content.header;
+  const { contact } = content.nav;
   const directory = pathname.split('/')[1] || 'home';
   // Format date as Mon Jan 01 21:30:00
   const lastUpdate = new Date(data.allFile.nodes[0].modifiedTime)
@@ -45,9 +45,10 @@ const Nav = ({ isDoneAnimation, pathname }) => {
         animatePrompt={directory === 'home'}
         command='tree'
         componentId='nav'
-        isDoneAnimation={isDoneAnimation}
+        setShowContent={setShowContent}
+        showContent={showContent}
       />
-      <Tree className={isDoneAnimation ? '' : 'hide'}>
+      <Tree className={showContent ? '' : 'hide'}>
         {treeData.map((tree, i) => (
           <ul key={i}>
             {tree.map(branch => (
@@ -122,8 +123,9 @@ const Tree = styled.div`
 `;
 
 Nav.propTypes = {
-  isDoneAnimation: PropTypes.bool.isRequired,
-  pathname: PropTypes.string.isRequired
+  pathname: PropTypes.string.isRequired,
+  setShowContent: PropTypes.func,
+  showContent: PropTypes.bool.isRequired
 };
 
 export default withPathname(Nav);

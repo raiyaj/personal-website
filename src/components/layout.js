@@ -5,6 +5,7 @@ import { theme, GlobalStyle } from '../styles';
 
 const Layout = ({ children }) => {
   useEffect(() => {
+    // Modify external links (assume all are already mounted)
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement
     Array.from(document.querySelectorAll('a'))
       .filter(anchor => anchor.host !== window.location.host)

@@ -1,6 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
 
-const APPEARANCE_DELAY = 600;
+const DELAY = {
+  long: 600
+};
 const STATUS = {
   active: 'active',
   done: 'done',
@@ -8,12 +10,10 @@ const STATUS = {
   waiting: 'waiting'
 };
 
-const AppearanceDispatch = React.createContext(null);
-
 const reducer = (state, action) => {
   switch (action.type) {
     case 'start':
-      // Only one node can be ready at a time
+      // Start the next ready node; only one node can be ready at a time
       return state.map(node => (
         node.status === STATUS.ready
         ? { ...node, status: STATUS.active }
@@ -37,7 +37,7 @@ const reducer = (state, action) => {
   }
 };
 
-const useSequentialAppearance = nodeIds => {
+const useAppearInSequence = nodeIds => {
   const [nodes, dispatch] = useReducer(
     reducer,
     nodeIds.map((id, i) => (
@@ -50,7 +50,7 @@ const useSequentialAppearance = nodeIds => {
     if (nodes.some(node => node.status === STATUS.ready)) {
       timeoutId = setTimeout(() => {
         dispatch({ type: 'start' });
-      }, APPEARANCE_DELAY);
+      }, DELAY.long);
     }
     return () => clearTimeout(timeoutId);
   }, [nodes]);
@@ -58,9 +58,13 @@ const useSequentialAppearance = nodeIds => {
   const checkStatus = (id, ...statuses) => (
     statuses.includes(nodes.find(node => node.id === id).status)
   );
+  const hasAppeared = id => checkStatus(id, STATUS.done);
+  const shouldAppear = id => checkStatus(id, STATUS.active, STATUS.done);
 
-  return [dispatch, checkStatus];
+  return [dispatch, hasAppeared, shouldAppear];
 };
 
-export default useSequentialAppearance;
-export { AppearanceDispatch, STATUS as APPEARANCE_STATUS }; 
+const AppearInSequenceDispatch = React.createContext(null);
+
+export default useAppearInSequence;
+export { AppearInSequenceDispatch }; 
