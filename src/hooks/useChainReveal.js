@@ -1,8 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
 
-const DELAY = {
-  long: 600
-};
 const STATUS = {
   active: 'active',
   done: 'done',
@@ -37,7 +34,7 @@ const reducer = (state, action) => {
   }
 };
 
-const useAppearInSequence = nodeIds => {
+const useChainReveal = nodeIds => {
   const [nodes, dispatch] = useReducer(
     reducer,
     nodeIds.map((id, i) => (
@@ -50,7 +47,7 @@ const useAppearInSequence = nodeIds => {
     if (nodes.some(node => node.status === STATUS.ready)) {
       timeoutId = setTimeout(() => {
         dispatch({ type: 'start' });
-      }, DELAY.long);
+      }, 600);
     }
     return () => clearTimeout(timeoutId);
   }, [nodes]);
@@ -58,13 +55,13 @@ const useAppearInSequence = nodeIds => {
   const checkStatus = (id, ...statuses) => (
     statuses.includes(nodes.find(node => node.id === id).status)
   );
-  const hasAppeared = id => checkStatus(id, STATUS.done);
-  const shouldAppear = id => checkStatus(id, STATUS.active, STATUS.done);
+  const hasRevealed = id => checkStatus(id, STATUS.done);
+  const shouldReveal = id => checkStatus(id, STATUS.active, STATUS.done);
 
-  return [dispatch, hasAppeared, shouldAppear];
+  return [dispatch, hasRevealed, shouldReveal];
 };
 
-const AppearInSequenceDispatch = React.createContext(null);
+const ChainRevealDispatch = React.createContext(null);
 
-export default useAppearInSequence;
-export { AppearInSequenceDispatch }; 
+export default useChainReveal;
+export { ChainRevealDispatch }; 

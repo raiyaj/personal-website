@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import withPathname from './hoc/withPathname';
-import { AppearInSequenceDispatch } from '../hooks';
+import { ChainRevealDispatch } from '../hooks';
 import { smoothScroll } from '../utils';
 
 const Terminal = ({
@@ -17,7 +17,7 @@ const Terminal = ({
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
 
-  const dispatch = useContext(AppearInSequenceDispatch);
+  const dispatch = useContext(ChainRevealDispatch);
 
   useEffect(() => {
     const delay = typed && typed !== command ? 135 : 600;

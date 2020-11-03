@@ -1,20 +1,17 @@
 import React from 'react';
 import { About, Layout, Nav } from '../components';
-import {
-  useAppearInSequence,
-  AppearInSequenceDispatch
-} from '../hooks';
+import { useChainReveal, ChainRevealDispatch } from '../hooks';
 
 const App = () => {
   const sectionIds = ['nav', 'about'];
-  const [dispatch, hasAppeared, shouldAppear] = useAppearInSequence(sectionIds);
+  const [dispatch, hasRevealed, shouldReveal] = useChainReveal(sectionIds);
 
   return (
     <Layout>
-      <AppearInSequenceDispatch.Provider value={dispatch}>
-        <Nav showContent={hasAppeared('nav')} />
-        {shouldAppear('about') && <About showContent={hasAppeared('about')} />}
-      </AppearInSequenceDispatch.Provider>
+      <ChainRevealDispatch.Provider value={dispatch}>
+        <Nav showContent={hasRevealed('nav')} />
+        {shouldReveal('about') && <About showContent={hasRevealed('about')} />}
+      </ChainRevealDispatch.Provider>
     </Layout>
   );
 };
