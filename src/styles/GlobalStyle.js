@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import { keyframes } from './animations';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -21,10 +20,6 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.35rem;
   }
 
-  nav, section {
-    padding: 3.5rem 0;
-  }
-
   a {
     color: var(--green);
     cursor: pointer;
@@ -34,6 +29,10 @@ const GlobalStyle = createGlobalStyle`
     &:hover, &.active {
       color: var(--dark-green);
     }
+  }
+
+  nav, section {
+    padding: 3.5rem 0;
   }
 
   .pink {
@@ -60,8 +59,6 @@ const GlobalStyle = createGlobalStyle`
   .hide {
     opacity: 0;
   }
-
-  ${keyframes};
 `;
 
 export default GlobalStyle;

@@ -9,14 +9,14 @@ const STATUS = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'start':
+    case 'begin':
       // Start the next ready node; only one node can be ready at a time
       return state.map(node => (
         node.status === STATUS.ready
         ? { ...node, status: STATUS.active }
         : { ...node }
       ));
-    case 'finish':
+    case 'end':
       return state.map((node, i) => {
         // When a node finishes, its successor isn't necessarily waiting.
         // TODO: Make sure successor is in viewport
@@ -46,14 +46,16 @@ const useChainReveal = nodeIds => {
     let timeoutId;
     if (nodes.some(node => node.status === STATUS.ready)) {
       timeoutId = setTimeout(() => {
-        dispatch({ type: 'start' });
-      }, 600);
+        dispatch({ type: 'begin' });
+      }, 500);
     }
     return () => clearTimeout(timeoutId);
   }, [nodes]);
 
-  const shouldReveal = id => [STATUS.active, STATUS.done]
-    .includes(nodes.find(node => node.id === id).status);
+  const shouldReveal = nodes.reduce((acc, curr) => {
+    acc[curr.id] = [STATUS.active, STATUS.done].includes(curr.status);
+    return acc;
+  }, {});
 
   return [dispatch, shouldReveal];
 };

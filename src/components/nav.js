@@ -1,22 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import Terminal from './terminal';
 import withPathname from './hoc/withPathname';
-import { ChainRevealDispatch } from '../hooks';
+import { useTerminal } from '../hooks';
 import { smoothScroll } from '../utils';
 import content from '../../content/content.yaml';
 
 const Nav = ({ pathname }) => {
-  const dispatch = useContext(ChainRevealDispatch);
-  const [showResult, setShowResult] = useState(false);
-
-  useEffect(() => {
-    if (showResult && dispatch) {
-      dispatch({ type: 'finish', id: 'nav' });
-    }
-  }, [dispatch, showResult]);  // `dispatch` is safe to omit
+  const [showResult, setShowResult] = useTerminal('nav');
 
   const data = useStaticQuery(
     graphql`

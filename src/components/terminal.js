@@ -10,7 +10,8 @@ const Terminal = ({
   command,
   pathname,
   setShowResult,
-  showResult
+  showResult,
+  startTyping
 }) => {
   const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
@@ -19,19 +20,16 @@ const Terminal = ({
     const delay = typed && typed !== command ? 135 : 600;
     const timeoutId = setTimeout(() => {
       if (!showPrompt) setShowPrompt(true);
-      else if (!typed) setTyped(command[0]);
-      else if (typed !== command) {
-        setTyped(command.substr(0, typed.length + 1));
+      else if (startTyping) {
+        if (!typed) setTyped(command[0]);
+        else if (typed !== command) {
+          setTyped(command.substr(0, typed.length + 1));
+        }
+        else setShowResult(true);
       }
-      else setShowResult(true);
     }, delay);
     return () => clearTimeout(timeoutId);
-  // `setShowResult` function identity is stable, and neither
-  // `command` nor `componentId` should ever change, so all
-  // are safe to omit.
-  // https://reactjs.org/docs/hooks-reference.html
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showPrompt, typed]);
+  });
 
   const directory = pathname.split('/')[1] || '~';
 
@@ -68,6 +66,15 @@ const Cursor = styled.span`
   bottom: .1rem;
   margin-left: -.1rem;
   animation: 1.25s blink step-start infinite;
+
+  @keyframes blink {
+    from, to {
+      color: transparent;
+    }
+    50% {
+      color: var(--blue);
+    }
+  }
 `;
 
 Terminal.propTypes = {
@@ -75,11 +82,13 @@ Terminal.propTypes = {
   command: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
   setShowResult: PropTypes.func.isRequired,
-  showResult: PropTypes.bool.isRequired
+  showResult: PropTypes.bool.isRequired,
+  startTyping: PropTypes.bool
 };
 
 Terminal.defaultProps = {
-  animatePrompt: false
+  animatePrompt: false,
+  startTyping: true
 };
 
 export default withPathname(Terminal);
