@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { PADDING } from '../utils';
 
 const STATUS = {
   active: 'active',
@@ -7,25 +8,41 @@ const STATUS = {
   waiting: 'waiting'
 };
 
+const isVisible = id => {
+  const top = document
+    .querySelector(`#${id}`)
+    .getBoundingClientRect().top;
+  return top + PADDING > 0 && top + PADDING < window.innerHeight;
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'init':
+      // Start all nodes up to the first visible one
+      let someNodeVisible = false;
+      return state.map(node => {
+        if (!someNodeVisible) {
+          if (isVisible(node.id)) someNodeVisible = true;
+          return { ...node, status: STATUS.active };
+        }
+        else return { ...node };
+      });
     case 'begin':
-      // Start the next ready node; only one node can be ready at a time
       return state.map(node => (
-        node.status === STATUS.ready
+        node.status === action.status && isVisible(node.id)
         ? { ...node, status: STATUS.active }
         : { ...node }
       ));
     case 'end':
+      // Mark the node as done and its successor as ready, if necessary
       return state.map((node, i) => {
-        // When a node finishes, its successor isn't necessarily waiting.
-        // TODO: Make sure successor is in viewport
         let status = node.status;
         if (node.id === action.id) status = STATUS.done;
         else if (
           i > 0 &&
           state[i-1].id === action.id &&
-          node.status === STATUS.waiting
+          node.status === STATUS.waiting &&
+          isVisible(node.id)
         ) status = STATUS.ready;
         return { ...node, status };
       });
@@ -37,19 +54,37 @@ const reducer = (state, action) => {
 const useChainReveal = nodeIds => {
   const [nodes, dispatch] = useReducer(
     reducer,
-    nodeIds.map((id, i) => (
-      { id, status: i === 0 ? STATUS.active : STATUS.waiting }
-    ))
+    nodeIds.map(id => ({ id, status: STATUS.waiting }))
   );
+
+  useEffect(() => dispatch({ type: 'init' }), []);
 
   useEffect(() => {
     let timeoutId;
     if (nodes.some(node => node.status === STATUS.ready)) {
       timeoutId = setTimeout(() => {
-        dispatch({ type: 'begin' });
-      }, 500);
+        dispatch({ type: 'begin', status: STATUS.ready });
+      }, 300);
     }
     return () => clearTimeout(timeoutId);
+  }, [nodes]);
+
+  useEffect(() => {
+    const events = ['resize', 'scroll'];
+    const listener = () => {
+      // A scroll event is triggered by <Link /> on page change,
+      // so to avoid immediately starting all waiting nodes, don't
+      // dispatch after the first render (when the 'init' action
+      // hasn't been run yet)
+      if (
+        nodes[0].status !== STATUS.waiting &&
+        nodes.some(node => node.status === STATUS.waiting)
+      ) dispatch({ type: 'begin', status: STATUS.waiting });
+    };
+    events.forEach(event => window.addEventListener(event, listener));
+    return () => events.forEach(event => {
+      window.removeEventListener(event, listener);
+    });
   }, [nodes]);
 
   const shouldReveal = nodes.reduce((acc, curr) => {

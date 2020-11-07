@@ -13,23 +13,29 @@ const Terminal = ({
   showResult,
   startTyping
 }) => {
-  const [typed, setTyped] = useState('');
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
+  const [typed, setTyped] = useState('');
 
   useEffect(() => {
-    const delay = typed && typed !== command ? 135 : 600;
+    const delay = typed && typed !== command ? 125 : 600;
     const timeoutId = setTimeout(() => {
       if (!showPrompt) setShowPrompt(true);
       else if (startTyping) {
-        if (!typed) setTyped(command[0]);
-        else if (typed !== command) {
+        if (typed !== command) {
           setTyped(command.substr(0, typed.length + 1));
         }
         else setShowResult(true);
       }
     }, delay);
     return () => clearTimeout(timeoutId);
-  });
+  }, [
+    command,
+    setShowResult,
+    setTyped,
+    showPrompt,
+    startTyping,
+    typed
+  ]);
 
   const directory = pathname.split('/')[1] || '~';
 

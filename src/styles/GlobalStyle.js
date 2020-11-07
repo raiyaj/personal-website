@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { PADDING } from '../utils';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -15,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: var(--blue);
     font-family: var(--font-sans);
-    font-size: .9rem;
+    font-size: .91rem;
     letter-spacing: .5px;
     line-height: 1.35rem;
   }
@@ -32,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   nav, section {
-    padding: 3.5rem 0;
+    padding: ${PADDING}px 0;
   }
 
   .pink {
@@ -47,11 +48,12 @@ const GlobalStyle = createGlobalStyle`
 
   .font-mono {
     font-family: var(--font-mono);
-    font-size: .85rem;
-    letter-spacing: .2px;
+    font-size: .86rem;
+    letter-spacing: 0;
     
     a { 
       font-weight: bold;
+      letter-spacing: .1px;
     }
   }
 

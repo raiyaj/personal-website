@@ -25,12 +25,12 @@ const Nav = ({ pathname }) => {
 
   const { contact } = content.nav;
   const directory = pathname.split('/')[1] || 'home';
-  // Format date as Mon Jan 01 21:30:00
-  const lastUpdate = new Date(data.allFile.nodes[0].modifiedTime)
-    .toString()
-    .split(' ')
-    .filter((_, i) => i < 5 && i !== 3)
-    .join(' ');
+  const lastUpdate =
+    new Date(data.allFile.nodes[0].modifiedTime)
+      .toString()
+      .split(' ')
+      .filter((_, i) => i < 5 && i !== 3)
+      .join(' ');
   const treeData = [
     [
       { name: 'home', url: '/', children: [{ name: 'about' }] },
@@ -42,7 +42,7 @@ const Nav = ({ pathname }) => {
   ];
 
   return (
-    <nav className='font-mono'>
+    <nav className='font-mono' id='nav'>
       <div>Last update: {lastUpdate}</div>
       <Terminal
         animatePrompt={directory === 'home'}

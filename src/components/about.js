@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Terminal from './terminal';
-import { useTerminal} from '../hooks';
+import { useTerminal } from '../hooks';
 import content from '../../content/content.yaml';
 
 const About = ({ shouldReveal }) => {

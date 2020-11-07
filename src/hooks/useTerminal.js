@@ -11,13 +11,13 @@ const useTerminal = (id, animate=false) => {
   useEffect(() => {
     if (animate) {
       anime({
-        // bounce + fade up
+        // Bounce + fade up
         targets: `#${id}`,
         opacity: 1,
-        translateY: -10,
-        easing: 'spring(0, 10, 80, 22)',
+        translateY: -15,
+        easing: 'spring(0, 10, 5, 22)',
         update: anim => {
-          if (!startTyping && anim.progress > 15) setStartTyping(true)
+          if (!startTyping && anim.progress > 15) setStartTyping(true);
         }
       });
     }
@@ -25,7 +25,7 @@ const useTerminal = (id, animate=false) => {
 
   useEffect(() => {
     if (showResult && dispatch) dispatch({ type: 'end', id });
-  }, [dispatch, id, showResult]);  // `dispatch` is safe to omit
+  }, [dispatch, id, showResult]);
 
   return [showResult, setShowResult, startTyping];
 };
