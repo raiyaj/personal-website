@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import withPathname from './hoc/withPathname';
+import { useLocation } from '@reach/router';
 import { smoothScroll } from '../utils';
 
 const Terminal = ({
   animatePrompt,
   command,
-  pathname,
   setShowResult,
   showResult,
   startTyping
@@ -37,6 +36,7 @@ const Terminal = ({
     typed
   ]);
 
+  const { pathname } = useLocation();
   const directory = pathname.split('/')[1] || '~';
 
   return (
@@ -86,7 +86,6 @@ const Cursor = styled.span`
 Terminal.propTypes = {
   animatePrompt: PropTypes.bool,
   command: PropTypes.string.isRequired,
-  pathname: PropTypes.string.isRequired,
   setShowResult: PropTypes.func.isRequired,
   showResult: PropTypes.bool.isRequired,
   startTyping: PropTypes.bool
@@ -97,4 +96,4 @@ Terminal.defaultProps = {
   startTyping: true
 };
 
-export default withPathname(Terminal);
+export default Terminal;

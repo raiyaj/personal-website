@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql, useStaticQuery, Link } from 'gatsby';
+import { useLocation } from '@reach/router';
 import Terminal from './terminal';
-import withPathname from './hoc/withPathname';
 import { useTerminal } from '../hooks';
 import { smoothScroll } from '../utils';
 import content from '../../content/content.yaml';
 
-const Nav = ({ pathname }) => {
+const Nav = () => {
   const [showResult, setShowResult] = useTerminal('nav');
 
   const data = useStaticQuery(
@@ -24,6 +23,7 @@ const Nav = ({ pathname }) => {
   );
 
   const { contact } = content.nav;
+  const { pathname } = useLocation();
   const directory = pathname.split('/')[1] || 'home';
   const lastUpdate =
     new Date(data.allFile.nodes[0].modifiedTime)
@@ -124,8 +124,4 @@ const Tree = styled.div`
   }
 `;
 
-Nav.propTypes = {
-  pathname: PropTypes.string.isRequired
-};
-
-export default withPathname(Nav);
+export default Nav;

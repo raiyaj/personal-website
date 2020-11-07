@@ -5,7 +5,6 @@ import { ChainRevealDispatch } from './useChainReveal';
 const useTerminal = (id, animate=false) => {
   const [showResult, setShowResult] = useState(false);
   const [startTyping, setStartTyping] = useState(false);
-
   const dispatch = useContext(ChainRevealDispatch);
 
   useEffect(() => {
