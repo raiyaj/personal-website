@@ -29,7 +29,6 @@ const Layout = ({ children }) => {
 };
 
 const StyledLayout = styled.div`
-  height: 1000px;  /* temporary */
   margin: 6rem auto;
   max-width: 800px;
   width: 70vw;

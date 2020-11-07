@@ -3,7 +3,6 @@ import { PADDING } from '../utils';
 
 const STATUS = {
   active: 'active',
-  done: 'done',
   ready: 'ready',
   waiting: 'waiting'
 };
@@ -34,17 +33,15 @@ const reducer = (state, action) => {
         : { ...node }
       ));
     case 'end':
-      // Mark the node as done and its successor as ready, if necessary
+      // Mark the node's successor as ready, if necessary
       return state.map((node, i) => {
-        let status = node.status;
-        if (node.id === action.id) status = STATUS.done;
-        else if (
+        if (
           i > 0 &&
           state[i-1].id === action.id &&
           node.status === STATUS.waiting &&
           isVisible(node.id)
-        ) status = STATUS.ready;
-        return { ...node, status };
+        ) return { ...node, status: STATUS.ready };
+        else return { ...node };
       });
     default:
       return state;
@@ -88,7 +85,7 @@ const useChainReveal = nodeIds => {
   }, [nodes]);
 
   const shouldReveal = nodes.reduce((acc, curr) => {
-    acc[curr.id] = [STATUS.active, STATUS.done].includes(curr.status);
+    acc[curr.id] = curr.status === STATUS.active;
     return acc;
   }, {});
 
