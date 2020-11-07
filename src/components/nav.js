@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import Terminal from './terminal';
 import withPathname from './hoc/withPathname';
+import { useTerminal } from '../hooks';
 import { smoothScroll } from '../utils';
 import content from '../../content/content.yaml';
 
 const Nav = ({ pathname }) => {
-  const [showContent, setShowContent] = useState(false);
+  const [showResult, setShowResult] = useTerminal('nav');
 
   const data = useStaticQuery(
     graphql`
@@ -21,14 +23,14 @@ const Nav = ({ pathname }) => {
     `
   );
 
-  const { contact } = content.header;
+  const { contact } = content.nav;
   const directory = pathname.split('/')[1] || 'home';
-  // format date as Mon Jan 01 21:30:00
-  const lastUpdate = new Date(data.allFile.nodes[0].modifiedTime)
-    .toString()
-    .split(' ')
-    .filter((_, i) => i < 5 && i !== 3)
-    .join(' ');
+  const lastUpdate =
+    new Date(data.allFile.nodes[0].modifiedTime)
+      .toString()
+      .split(' ')
+      .filter((_, i) => i < 5 && i !== 3)
+      .join(' ');
   const treeData = [
     [
       { name: 'home', url: '/', children: [{ name: 'about' }] },
@@ -40,15 +42,15 @@ const Nav = ({ pathname }) => {
   ];
 
   return (
-    <nav className='font-mono'>
+    <nav className='font-mono' id='nav'>
       <div>Last update: {lastUpdate}</div>
       <Terminal
         animatePrompt={directory === 'home'}
         command='tree'
-        showContent={showContent}
-        setShowContent={setShowContent}
+        setShowResult={setShowResult}
+        showResult={showResult}
       />
-      <Tree className={showContent ? '' : 'hide'}>
+      <Tree className={showResult ? '' : 'hide'}>
         {treeData.map((tree, i) => (
           <ul key={i}>
             {tree.map(branch => (
@@ -63,7 +65,7 @@ const Nav = ({ pathname }) => {
                     </Link>
                   : branch.name
                 }
-                {branch.children && (
+                {branch.children &&
                   <ul>
                     {branch.children.map(twig => (
                       <li key={twig.name}>
@@ -71,9 +73,10 @@ const Nav = ({ pathname }) => {
                           ? <a href={twig.url}>{twig.name}</a>
                           : <Link
                               to={`${branch.url}#${twig.name}`}
-                              {...(branch.name === directory && {
-                                onClick: e => smoothScroll(e, `#${twig.name}`)
-                              })}
+                              onClick={branch.name === directory
+                                ? e => smoothScroll(e, `#${twig.name}`)
+                                : undefined
+                              }
                             >
                               {twig.name}
                             </Link>
@@ -81,7 +84,7 @@ const Nav = ({ pathname }) => {
                       </li>
                     ))}
                   </ul>
-                )}
+                }
               </li>
             ))}
           </ul>
@@ -120,5 +123,9 @@ const Tree = styled.div`
     }
   }
 `;
+
+Nav.propTypes = {
+  pathname: PropTypes.string.isRequired
+};
 
 export default withPathname(Nav);

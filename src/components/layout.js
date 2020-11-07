@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme, GlobalStyle } from '../styles';
-import Nav from './nav';
 
 const Layout = ({ children }) => {
   useEffect(() => {
-    // modify external links
+    // Modify external links (assume all are already mounted)
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement
     Array.from(document.querySelectorAll('a'))
       .filter(anchor => anchor.host !== window.location.host)
@@ -22,7 +21,6 @@ const Layout = ({ children }) => {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <StyledLayout>
-          <Nav />
           {children}
         </StyledLayout>
       </ThemeProvider>
@@ -31,7 +29,6 @@ const Layout = ({ children }) => {
 };
 
 const StyledLayout = styled.div`
-  height: 1000px;  /* temporary */
   margin: 6rem auto;
   max-width: 800px;
   width: 70vw;
@@ -46,7 +43,7 @@ const StyledLayout = styled.div`
 `;
 
 Layout.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.node
 };
 
 export default Layout;

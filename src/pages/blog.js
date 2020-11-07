@@ -1,9 +1,10 @@
 import React from 'react';
-import { Layout } from '../components';
+import { Layout, Nav } from '../components';
 
 const App = () => {
   return (
     <Layout>
+      <Nav />
       <div>Work in progress!</div>
     </Layout>
   );

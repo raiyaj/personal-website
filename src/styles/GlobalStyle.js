@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { keyframes } from './animations';
+import { PADDING } from '../utils';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -16,13 +16,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: var(--blue);
     font-family: var(--font-sans);
-    font-size: .9rem;
+    font-size: .91rem;
     letter-spacing: .5px;
     line-height: 1.35rem;
-  }
-
-  nav, section {
-    padding: 3.5rem 0;
   }
 
   a {
@@ -34,6 +30,10 @@ const GlobalStyle = createGlobalStyle`
     &:hover, &.active {
       color: var(--dark-green);
     }
+  }
+
+  nav, section {
+    padding: ${PADDING}px 0;
   }
 
   .pink {
@@ -48,20 +48,19 @@ const GlobalStyle = createGlobalStyle`
 
   .font-mono {
     font-family: var(--font-mono);
-    font-size: .85rem;
-    letter-spacing: .2px;
+    font-size: .86rem;
+    letter-spacing: 0;
     
     a { 
       font-weight: bold;
+      letter-spacing: .1px;
     }
   }
 
-  /* use instead of conditional rendering to reserve space on initial mount */
+  /* Use instead of conditional rendering to reserve space on initial mount */
   .hide {
     opacity: 0;
   }
-
-  ${keyframes};
 `;
 
 export default GlobalStyle;

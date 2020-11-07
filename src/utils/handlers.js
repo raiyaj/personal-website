@@ -1,6 +1,6 @@
-export const smoothScroll = (event, url='/') => {
-  event.preventDefault();
-  window.history.pushState(null, null, url);  // silently change url
+export const smoothScroll = (e, url='/') => {
+  e.preventDefault();
+  window.history.pushState(null, null, url);  // Silently change url
   if (url.startsWith('#')) {
     document.querySelector(url).scrollIntoView({
       behavior: 'smooth'
