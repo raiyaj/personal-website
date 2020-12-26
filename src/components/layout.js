@@ -8,11 +8,11 @@ const Layout = ({ children }) => {
     // Modify external links (assume all are already mounted)
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement
     Array.from(document.querySelectorAll('a'))
-      .filter(anchor => anchor.host !== window.location.host)
-      .forEach(anchor => {
-        anchor.setAttribute('target', '_blank');
+      .filter(a => a.host !== window.location.host)
+      .forEach(a => {
+        a.setAttribute('target', '_blank');
         // https://mathiasbynens.github.io/rel-noopener
-        anchor.setAttribute('rel', 'noopener noreferrer');
+        a.setAttribute('rel', 'noopener noreferrer');
       });
   }, []);
 

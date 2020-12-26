@@ -34,7 +34,7 @@ const Nav = () => {
   const treeData = [
     [
       { name: 'home', url: '/', children: [{ name: 'about' }] },
-      { name: 'blog', url: '/blog' }
+      { name: 'journal', url: '/journal' }
     ],
     [
       { name: 'contact', children: contact }

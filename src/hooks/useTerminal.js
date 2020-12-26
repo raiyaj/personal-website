@@ -23,7 +23,7 @@ const useTerminal = (id, animate=false) => {
   }, [animate, id, startTyping]);
 
   useEffect(() => {
-    if (showResult && dispatch) dispatch({ type: 'end', id });
+    if (showResult && dispatch) dispatch({ id, type: 'end' });
   }, [dispatch, id, showResult]);
 
   return [showResult, setShowResult, startTyping];
