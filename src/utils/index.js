@@ -7,12 +7,14 @@ export * from './constants';
  */
 export const smoothScroll = (e, url='/') => {
   e.preventDefault();
+  if (url.startsWith('/') && url.length > 1) {
+    return navigate(url);
+  }
   window.history.pushState(null, null, url);  // Silently change url
-  if (url === '/') window.scroll({ top: 0, behavior: 'smooth' });
-  else if (url.startsWith('#')) {
+  if (url.startsWith('#')) {
     document.querySelector(url).scrollIntoView({
       behavior: 'smooth'
     });
   }
-  else navigate(url);
+  else window.scroll({ top: 0, behavior: 'smooth' });
 };
