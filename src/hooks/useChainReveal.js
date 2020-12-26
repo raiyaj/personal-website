@@ -30,7 +30,7 @@ const reducer = (state, action) => {
         else return { ...node };
       });
     case 'end':
-      // Mark node successor as ready, if visible
+      // Mark successor node as ready, if visible
       return state.map((node, i) => {
         if (
           i > 0 &&

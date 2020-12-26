@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: var(--green);
     cursor: pointer;
-    font-weight: 500;
+    font-weight: bold;
     text-decoration: none;
 
     &:hover, &.active {
