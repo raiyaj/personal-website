@@ -10,30 +10,27 @@ const STATUS = {
 const isVisible = id => {
   const top = document
     .querySelector(`#${id}`)
-    .getBoundingClientRect().top;
-  return top + PADDING > 0 && top + PADDING < window.innerHeight;
+    .getBoundingClientRect().top + PADDING;
+  return top > 0 && top < window.innerHeight;
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'init':
-      // Start all nodes up to the first visible one
-      let someNodeVisible = false;
+    case 'begin':
+      // Start nodes up to the first visible one
+      let foundNode = false;
       return state.map(node => {
-        if (!someNodeVisible) {
-          if (isVisible(node.id)) someNodeVisible = true;
+        if (!foundNode) {
+          if (
+            isVisible(node.id) &&
+            (!action.status || action.status === node.status)
+          ) foundNode = true;
           return { ...node, status: STATUS.active };
         }
         else return { ...node };
       });
-    case 'begin':
-      return state.map(node => (
-        node.status === action.status && isVisible(node.id)
-        ? { ...node, status: STATUS.active }
-        : { ...node }
-      ));
     case 'end':
-      // Mark the node's successor as ready, if necessary
+      // Mark node successor as ready, if visible
       return state.map((node, i) => {
         if (
           i > 0 &&
@@ -54,7 +51,7 @@ const useChainReveal = nodeIds => {
     nodeIds.map(id => ({ id, status: STATUS.waiting }))
   );
 
-  useEffect(() => dispatch({ type: 'init' }), []);
+  useEffect(() => dispatch({ type: 'begin' }), []);
 
   useEffect(() => {
     let timeoutId;
@@ -76,7 +73,7 @@ const useChainReveal = nodeIds => {
       if (
         nodes[0].status !== STATUS.waiting &&
         nodes.some(node => node.status === STATUS.waiting)
-      ) dispatch({ type: 'begin', status: STATUS.waiting });
+      ) dispatch({ type: 'begin' });
     };
     events.forEach(event => window.addEventListener(event, listener));
     return () => events.forEach(event => {
