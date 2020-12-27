@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: var(--green);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 500;
     text-decoration: none;
 
     &:hover, &.active {
@@ -49,11 +49,10 @@ const GlobalStyle = createGlobalStyle`
   .font-mono {
     font-family: var(--font-mono);
     font-size: .86rem;
-    letter-spacing: 0;
+    letter-spacing: .1px;
     
     a { 
       font-weight: bold;
-      letter-spacing: .1px;
     }
   }
 
