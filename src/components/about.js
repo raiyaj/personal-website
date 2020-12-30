@@ -15,13 +15,13 @@ const About = ({ shouldReveal }) => {
   const { bio } = content.about;
 
   useEffect(() => {
-    const anchors = Array.from(
-      document.querySelectorAll('#about p a')
-    ).filter(a => a.host === window.location.host);
-    anchors.forEach(a => a.addEventListener(
+    const internalAnchors = Array
+      .from(document.querySelectorAll('#about p a'))
+      .filter(a => a.host === window.location.host);
+    internalAnchors.forEach(a => a.addEventListener(
       'click', e => smoothScroll(e, a.attributes.href.value)
     ));
-    return () => anchors.forEach(a => a.removeEventListener(
+    return () => internalAnchors.forEach(a => a.removeEventListener(
       'click', e => smoothScroll(e, a.attributes.href.value)
     ));
   }, [bio]);

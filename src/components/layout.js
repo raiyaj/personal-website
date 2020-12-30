@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
   }, []);
 
   return (
-    <div id='root'>
+    <div>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <StyledLayout>

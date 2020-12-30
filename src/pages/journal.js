@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Nav } from '../components';
 
-const App = () => {
+const JournalPage = () => {
   return (
     <Layout>
       <Nav />
@@ -10,4 +10,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default JournalPage;

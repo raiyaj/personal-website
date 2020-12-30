@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import { PADDING } from '../utils';
+import { SECTION_PADDING } from '../utils';
 
 const STATUS = {
   active: 'active',
@@ -10,7 +10,7 @@ const STATUS = {
 const isVisible = id => {
   const top = document
     .querySelector(`#${id}`)
-    .getBoundingClientRect().top + PADDING;
+    .getBoundingClientRect().top + SECTION_PADDING;
   return top > 0 && top < window.innerHeight;
 };
 

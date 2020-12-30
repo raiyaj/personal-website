@@ -60,6 +60,7 @@ const Nav = () => {
                       to={branch.url}
                       activeClassName='active'
                       partiallyActive={branch.name === directory}
+                      onClick={branch.name === directory ? smoothScroll : undefined}
                     >
                       {branch.name}
                     </Link>

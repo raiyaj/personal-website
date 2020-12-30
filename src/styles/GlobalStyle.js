@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { PADDING } from '../utils';
+import { SECTION_PADDING } from '../utils';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -33,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   nav, section {
-    padding: ${PADDING}px 0;
+    padding: ${SECTION_PADDING}px 0;
   }
 
   .pink {
@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
   .font-mono {
     font-family: var(--font-mono);
     font-size: .86rem;
-    letter-spacing: .1px;
+    letter-spacing: 0.1px;
     
     a { 
       font-weight: bold;
