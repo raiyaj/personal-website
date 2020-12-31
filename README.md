@@ -1,13 +1,12 @@
-<h1 align='center'>
-  <a href='https://www.raiyajessa.com' target='_blank'>
-    raiyajessa.com
-  </a>
-</h1>
-<p align='center'>
-  <a href='https://app.netlify.com/sites/keen-curie-cb4a81/deploys' target='_blank'>
-    <img
-      alt='Netlify status'
-      src='https://api.netlify.com/api/v1/badges/8c51fd1b-0f72-432d-88f7-012f9a76736e/deploy-status'
-    />
-  </a>
-</p>
+# [raiyajessa.com](https://www.raiyajessa.com)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8c51fd1b-0f72-432d-88f7-012f9a76736e/deploy-status)](https://app.netlify.com/sites/keen-curie-cb4a81/deploys)
+
+## Getting started
+Install dependencies and start the local development server:
+```
+yarn && yarn start
+```
+Generate static files and preview the site before [deployment](https://www.gatsbyjs.com/docs/preparing-for-deployment):
+```
+yarn build && yarn serve
+```
