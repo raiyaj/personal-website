@@ -73,7 +73,9 @@ const useChainReveal = nodeIds => {
       if (
         nodes[0].status !== STATUS.waiting &&
         nodes.some(node => node.status === STATUS.waiting)
-      ) dispatch({ type: 'begin' });
+      ) {
+        dispatch({ type: 'begin' });
+      }
     };
     events.forEach(event => window.addEventListener(event, listener));
     return () => events.forEach(event => {

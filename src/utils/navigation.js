@@ -3,7 +3,7 @@ import { navigate } from 'gatsby';
 /**
  * Smooth scroll or soft navigate to internal urls.
  */
-export const smoothScroll = (e, url='/') => {
+const smoothScroll = (e, url = '/') => {
   e.preventDefault();
   if (url.startsWith('/') && url.length > 1) {
     return navigate(url);
@@ -16,3 +16,5 @@ export const smoothScroll = (e, url='/') => {
   }
   else window.scroll({ top: 0, behavior: 'smooth' });
 };
+
+export { smoothScroll };

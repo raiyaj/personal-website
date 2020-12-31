@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { graphql, useStaticQuery, Link } from 'gatsby';
 import { useLocation } from '@reach/router';
-import { smoothScroll } from '../utils';
+import { smoothScroll, trim } from '../utils';
 
 const Terminal = ({
   animatePrompt,
@@ -14,6 +14,24 @@ const Terminal = ({
 }) => {
   const [showPrompt, setShowPrompt] = useState(!animatePrompt);
   const [typed, setTyped] = useState('');
+
+  const data = useStaticQuery(graphql`
+    query PagePaths {
+      allSitePage {
+        nodes {
+          path
+        }
+      }
+    }
+  `);
+
+  const { pathname } = useLocation();
+  let directory = pathname.split('/')[1];
+  if (!directory || !data.allSitePage.nodes.some(node =>
+    trim(node.path, '/') === directory
+  )) {
+    directory = '~';
+  }
 
   useEffect(() => {
     const delay = typed && typed !== command ? 125 : 600;
@@ -36,14 +54,11 @@ const Terminal = ({
     typed
   ]);
 
-  const { pathname } = useLocation();
-  const directory = pathname.split('/')[1] || '~';
-
   return (
     <div className='font-mono'>
       {showPrompt &&
         <Prompt>
-          <Link to='/' onClick={directory === '~' ? smoothScroll : undefined}>
+          <Link to='/' onClick={pathname === '/' ? smoothScroll : undefined}>
             raiyajessa
           </Link>
           <span className='light-green'>@</span>

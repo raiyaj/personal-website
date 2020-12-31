@@ -50,6 +50,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: var(--font-mono);
     font-size: .86rem;
     letter-spacing: 0.1px;
+    word-spacing: -1px;
     
     a { 
       font-weight: bold;

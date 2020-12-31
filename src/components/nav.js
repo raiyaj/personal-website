@@ -10,17 +10,15 @@ import content from '../../content/content.yaml';
 const Nav = () => {
   const [showResult, setShowResult] = useTerminal('nav');
 
-  const data = useStaticQuery(
-    graphql`
-      query {
-        allFile(sort: {fields: modifiedTime, order: DESC}, limit: 1) {
-          nodes {
-            modifiedTime
-          }
+  const data = useStaticQuery(graphql`
+    query LastUpdate {
+      allFile(sort: {fields: modifiedTime, order: DESC}, limit: 1) {
+        nodes {
+          modifiedTime
         }
       }
-    `
-  );
+    }
+  `);
 
   const { contact } = content.nav;
   const { pathname } = useLocation();
