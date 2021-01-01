@@ -17,7 +17,7 @@ const Terminal = ({
 
   const data = useStaticQuery(graphql`
     query PagePaths {
-      allSitePage {
+      allSitePage(filter: {path: {regex: "/\/[a-z-]+\//"}}) {
         nodes {
           path
         }
