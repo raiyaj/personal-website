@@ -55,6 +55,10 @@ const GlobalStyle = createGlobalStyle`
     a { 
       font-weight: bold;
     }
+
+    p {
+      margin-top: 4px;
+    }
   }
 
   /* Use instead of conditional rendering to reserve space on initial mount */

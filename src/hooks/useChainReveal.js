@@ -16,7 +16,7 @@ const isVisible = id => {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'begin':
+    case 'start':
       // Start nodes up to the first visible one
       let foundNode = false;
       return state.map(node => {
@@ -24,12 +24,14 @@ const reducer = (state, action) => {
           if (
             isVisible(node.id) &&
             (!action.status || action.status === node.status)
-          ) foundNode = true;
+          ) {
+            foundNode = true;
+          }
           return { ...node, status: STATUS.active };
         }
         else return { ...node };
       });
-    case 'end':
+    case 'finish':
       // Mark successor node as ready, if visible
       return state.map((node, i) => {
         if (
@@ -51,13 +53,13 @@ const useChainReveal = nodeIds => {
     nodeIds.map(id => ({ id, status: STATUS.waiting }))
   );
 
-  useEffect(() => dispatch({ type: 'begin' }), []);
+  useEffect(() => dispatch({ type: 'start' }), []);
 
   useEffect(() => {
     let timeoutId;
     if (nodes.some(node => node.status === STATUS.ready)) {
       timeoutId = setTimeout(() => {
-        dispatch({ type: 'begin', status: STATUS.ready });
+        dispatch({ type: 'start', status: STATUS.ready });
       }, 300);
     }
     return () => clearTimeout(timeoutId);
@@ -66,15 +68,8 @@ const useChainReveal = nodeIds => {
   useEffect(() => {
     const events = ['resize', 'scroll'];
     const listener = () => {
-      // A scroll event is triggered by <Link /> on page change,
-      // so to avoid immediately starting all waiting nodes, don't
-      // dispatch after the first render (when the 'init' action
-      // hasn't been run yet)
-      if (
-        nodes[0].status !== STATUS.waiting &&
-        nodes.some(node => node.status === STATUS.waiting)
-      ) {
-        dispatch({ type: 'begin' });
+      if (nodes.some(node => node.status === STATUS.waiting)) {
+        dispatch({ type: 'finish' });
       }
     };
     events.forEach(event => window.addEventListener(event, listener));
