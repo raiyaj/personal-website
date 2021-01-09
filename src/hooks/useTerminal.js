@@ -23,7 +23,13 @@ const useTerminal = (id, animate=false) => {
   }, [animate, id, startTyping]);
 
   useEffect(() => {
-    if (showResult && dispatch) dispatch({ type: 'finish', id });
+    let timeoutId;
+    if (showResult && dispatch) {
+      timeoutId = setTimeout(() => {
+        dispatch({ type: 'finish', id });
+      }, 300);
+    }
+    return () => clearTimeout(timeoutId);
   }, [dispatch, id, showResult]);
 
   return [showResult, setShowResult, startTyping];

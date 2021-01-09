@@ -2,9 +2,9 @@ import React, { useEffect, useReducer } from 'react';
 import { SECTION_PADDING } from '../utils';
 
 const STATUS = {
-  active: 'active',
+  waiting: 'waiting',
   ready: 'ready',
-  waiting: 'waiting'
+  active: 'active'
 };
 
 const isVisible = id => {
@@ -37,8 +37,7 @@ const reducer = (state, action) => {
         if (
           i > 0 &&
           state[i-1].id === action.id &&
-          node.status === STATUS.waiting &&
-          isVisible(node.id)
+          node.status === STATUS.waiting
         ) return { ...node, status: STATUS.ready };
         else return { ...node };
       });
@@ -56,20 +55,18 @@ const useChainReveal = nodeIds => {
   useEffect(() => dispatch({ type: 'start' }), []);
 
   useEffect(() => {
-    let timeoutId;
-    if (nodes.some(node => node.status === STATUS.ready)) {
-      timeoutId = setTimeout(() => {
-        dispatch({ type: 'start', status: STATUS.ready });
-      }, 300);
+    if (nodes.some(node => (
+      node.status === STATUS.ready && isVisible(node.id)
+    ))) {
+      dispatch({ type: 'start', status: STATUS.ready });
     }
-    return () => clearTimeout(timeoutId);
   }, [nodes]);
 
   useEffect(() => {
     const events = ['resize', 'scroll'];
     const listener = () => {
       if (nodes.some(node => node.status === STATUS.waiting)) {
-        dispatch({ type: 'finish' });
+        dispatch({ type: 'start' });
       }
     };
     events.forEach(event => window.addEventListener(event, listener));
