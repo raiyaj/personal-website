@@ -1,13 +1,13 @@
 import React from 'react';
 import { Layout, Nav } from '../components';
 
-const JournalPage = () => {
+const Blog = () => {
   return (
     <Layout>
       <Nav />
-      <div>Work in progress!</div>
+      <div>Coming soon!</div>
     </Layout>
   );
 };
 
-export default JournalPage;
+export default Blog;
