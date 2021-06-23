@@ -10,12 +10,11 @@ nav:
       url: https://linkedin.com/in/raiyajessa
 about:
   bio: >-
-    Hi, I'm Raiya Jessa. I'm a software developer and computer science
-    student in Vancouver, Canada, with an interest in using technology
-    for good. At the moment, I'm finishing my last semester of
-    school, learning Gatsby.js and React.js (in part, by building this
-    site!), and beginning to <a href='/blog'>write</a> about my coding
-    (and life) experiments.
+    Hi, I'm Raiya Jessa. I'm an artist and software developer in
+    Vancouver, Canada, with an interest in using technology for good.
+    At the moment, I'm building tools with Python and AWS at Mobify,
+    learning Gatsby.js (in part, by building this site!), and beginning
+    to <a href='/blog'>write</a> about my coding experiments.
 
     This is my personal landing page: my web development playground
     and where I document what I'm learning, reading, and making.
